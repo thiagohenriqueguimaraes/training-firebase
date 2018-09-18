@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Form | Vuejs | Firebase</title>
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
 </head>
 <body>
   <div id="app">
@@ -20,10 +23,44 @@
       <input type="submit" value="Add User">
     </form>
     <ul class="errors">
-      <li v-show="!validation.name">Name cannot be empty.</li>
-      <li v-show="!validation.email">Please provide a valid email address.</li>
+      <li v-show="!validation.name">Nome não pode ser em branco.</li>
+      <li v-show="!validation.email">E-mail inválido.</li>
     </ul>
   </div>
+  <form id="search">
+    Search <input name="query" v-model="searchQuery">
+  </form>
+  <demo-grid
+    :data="gridData"
+    :columns="gridColumns"
+    :filter-key="searchQuery">
+  </demo-grid>
+  
+  <!-- component template -->
+<script type="text/x-template" id="grid-template">
+  <table>
+    <thead>
+      <tr>
+        <th v-for="key in columns"
+          @click="sortBy(key)"
+          :class="{ active: sortKey == key }">
+          {{ key | capitalize }}
+          <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="entry in filteredData">
+        <td v-for="key in columns">
+          {{entry[key]}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+
+  <script src="C:/Users/thiag/Documents/Project/training-firebase/Scripts/form.js"></script>
 </body>
 </html>
 <!-- Using vuefire (the official Firebase binding) -->
